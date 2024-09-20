@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,18 +8,11 @@
   margin: 0;
   padding: 0;
   color: #f0f0f3;
+  font-family: "Roboto Slab", serif;
 }
 
 #root {
   width: 100vw;
   height: 100vh;
   background-color: #1e1f24;
-}
-
-.primary-text {
-  color: #f0f0f3;
-}
-
-.secondary-text {
-  color: #88949c;
 }
