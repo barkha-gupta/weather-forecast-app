@@ -9,14 +9,22 @@ export interface WeatherDetails {
   condition: string;
   icon: string;
 }
+
+export interface ForeCast {
+  day: string;
+  highestTemp: number;
+  lowestTemp: number;
+  icon: string;
+}
 const initialWeatherDetails: WeatherDetails = {
   temp: 0,
   condition: "",
   icon: "",
 };
 export const WeatherContext = createContext({
-  city: "Bengaluru",
+  city: "",
   weatherDetails: initialWeatherDetails,
+  foreCastData: [] as ForeCast[],
 });
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -24,11 +32,12 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const fetchWeatherData = async (
   city: string,
   apiKey: string,
-  setWeatherDetails: Function
+  setWeatherDetails: Function,
+  setForecastData: Function
 ) => {
   try {
     const res = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`
+      `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=5&aqi=no&alerts=no`
     );
     const data = await res.json();
 
@@ -38,8 +47,18 @@ const fetchWeatherData = async (
         condition: data.current.condition.text,
         icon: data.current.condition.icon,
       });
-    } else {
-      console.log("Unexpected API response structure.");
+    }
+
+    if (data && data.forecast && data.forecast.forecastday) {
+      const forecastData = data.forecast.forecastday.map((day: any) => ({
+        day: new Date(day.date).toLocaleDateString("en-US", {
+          weekday: "long",
+        }),
+        highestTemp: day.day.maxtemp_c,
+        lowestTemp: day.day.mintemp_c,
+        icon: day.day.condition.icon,
+      }));
+      setForecastData(forecastData);
     }
   } catch (error) {
     console.error("Error fetching weather data:", error);
@@ -51,12 +70,13 @@ export const WeatherProvider: FC<WeatherProviderProps> = ({ children }) => {
   const [weatherDetails, setWeatherDetails] = useState<WeatherDetails>(
     initialWeatherDetails
   );
+  const [foreCastData, setForecastData] = useState<ForeCast[]>([]);
 
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
-      fetchWeatherData(city, apiKey, setWeatherDetails);
+      fetchWeatherData(city, apiKey, setWeatherDetails, setForecastData);
     }
 
     return () => {
@@ -64,7 +84,7 @@ export const WeatherProvider: FC<WeatherProviderProps> = ({ children }) => {
     };
   }, [city]);
 
-  const value = { city, weatherDetails };
+  const value = { city, weatherDetails, foreCastData };
   return (
     <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
   );
