@@ -27,6 +27,7 @@ export const WeatherContext = createContext({
   foreCastData: [] as ForeCast[],
   isFahrenheit: false,
   toggleTempUnit: () => {},
+  setCity: (city: string) => {},
 });
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -109,6 +110,7 @@ export const WeatherProvider: FC<WeatherProviderProps> = ({ children }) => {
     })),
     isFahrenheit,
     toggleTempUnit,
+    setCity,
   };
   return (
     <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
