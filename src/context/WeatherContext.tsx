@@ -25,6 +25,8 @@ export const WeatherContext = createContext({
   city: "",
   weatherDetails: initialWeatherDetails,
   foreCastData: [] as ForeCast[],
+  isFahrenheit: false,
+  toggleTempUnit: () => {},
 });
 
 const apiKey = import.meta.env.VITE_API_KEY;
@@ -71,6 +73,7 @@ export const WeatherProvider: FC<WeatherProviderProps> = ({ children }) => {
     initialWeatherDetails
   );
   const [foreCastData, setForecastData] = useState<ForeCast[]>([]);
+  const [isFahrenheit, setIsFahrenheit] = useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -84,7 +87,29 @@ export const WeatherProvider: FC<WeatherProviderProps> = ({ children }) => {
     };
   }, [city]);
 
-  const value = { city, weatherDetails, foreCastData };
+  const toggleTempUnit = () => {
+    setIsFahrenheit((prev) => !prev);
+  };
+
+  const getTemperature = (tempCelsius: number) => {
+    const temp = isFahrenheit ? (tempCelsius * 9) / 5 + 32 : tempCelsius;
+    return parseFloat(temp.toFixed(1));
+  };
+
+  const value = {
+    city,
+    weatherDetails: {
+      ...weatherDetails,
+      temp: getTemperature(weatherDetails.temp),
+    },
+    foreCastData: foreCastData.map((forecast) => ({
+      ...forecast,
+      highestTemp: getTemperature(forecast.highestTemp),
+      lowestTemp: getTemperature(forecast.lowestTemp),
+    })),
+    isFahrenheit,
+    toggleTempUnit,
+  };
   return (
     <WeatherContext.Provider value={value}>{children}</WeatherContext.Provider>
   );
