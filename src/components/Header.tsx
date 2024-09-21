@@ -25,7 +25,7 @@ export const Header: FC = () => {
   const greeting = getGreeting(date);
 
   return (
-    <div className="border border-white flex justify-between p-2 items-center">
+    <div className="flex justify-between p-3 items-center">
       {/* greetings and date  */}
       <div className="flex gap-1 items-end">
         <img src={Logo} alt="logo" width={50} height={50} />
@@ -35,13 +35,10 @@ export const Header: FC = () => {
         </div>
       </div>
 
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-5 items-center">
         {/* input box */}
         <SearchInputBox />
-
-        <TempUnitToggle />
-
-        {/* temperature unit toggle */}
+        {/* temperature unit toggle */} <TempUnitToggle />
       </div>
     </div>
   );
