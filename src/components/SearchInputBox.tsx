@@ -7,9 +7,19 @@ const SearchInputBox: FC = () => {
 
   const { setCity, city } = useContext(WeatherContext);
   const [firstSixMatching, setFirstSixMatching] = useState([]);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value);
+    const inputValue = e.target.value;
+    setCity(inputValue);
+
+    if (inputValue.length > 0 && inputValue.length < 3) {
+      setErrorMsg("Please enter at least 3 characters.");
+    } else if (inputValue.length > 0 && firstSixMatching.length === 0) {
+      setErrorMsg("City not found. Please check your input");
+    } else {
+      setErrorMsg("");
+    }
 
     if (e.target.value.length > 0) {
       const filteredCities = allCities.filter((item) =>
@@ -24,7 +34,7 @@ const SearchInputBox: FC = () => {
 
   const handleCitySelect = (selectedCity: string) => {
     setCity(selectedCity);
-    setFirstSixMatching([]); // Clear the dropdown list to make it disappear
+    setFirstSixMatching([]);
   };
 
   return (
@@ -36,12 +46,17 @@ const SearchInputBox: FC = () => {
         onChange={handleCityChange}
         value={city}
       />
+      <p className="h-4 text-xs text-[#f96a6a]">
+        {errorMsg ? `*${errorMsg}` : " "}
+      </p>
       <ul>
         {firstSixMatching &&
           firstSixMatching.map((item, index) => (
             <li
               key={index}
-              onClick={() => handleCitySelect(item.name)} // Handle city selection
+              onClick={() => {
+                handleCitySelect(item.name);
+              }}
               className={city === item.name ? "active" : ""}
             >
               {item.name}

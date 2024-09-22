@@ -8,6 +8,7 @@ function App() {
   return (
     <div className="bg-[#1e1f24]">
       <Header />
+
       <div className="grid grid-rows-[1fr_1fr] md:grid-cols-[2fr_5fr] gap-4 lg:grid-rows-none my-12 mx-3">
         {/* Weather display component */}
         <WeatherDisplay />

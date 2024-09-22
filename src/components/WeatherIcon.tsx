@@ -6,7 +6,7 @@ const WeatherIcon: FC = () => {
   const iconSrc = weatherDetails.icon;
   return (
     <>
-      <img src={iconSrc} alt="clear" width={200} height={200} />
+      <img src={iconSrc} alt="weather icon" width={200} height={200} />
     </>
   );
 };

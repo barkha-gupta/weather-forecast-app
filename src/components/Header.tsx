@@ -35,7 +35,7 @@ export const Header: FC = () => {
         </div>
       </div>
 
-      <div className="flex gap-5 items-center">
+      <div className="flex gap-5 items-baseline">
         {/* input box */}
         <SearchInputBox />
         {/* temperature unit toggle */} <TempUnitToggle />
