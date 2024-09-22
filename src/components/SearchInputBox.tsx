@@ -1,13 +1,18 @@
 import { FC, useContext, useEffect, useState } from "react";
 import { WeatherContext } from "../context/WeatherContext";
-import { City } from "country-state-city";
+import { City, ICity } from "country-state-city";
 import { useDebounce } from "../hooks/useDebounce";
+
+interface WeatherContextType {
+  setCity: (city: string) => void;
+  city: string;
+}
 
 const SearchInputBox: FC = () => {
   const allCities = City.getAllCities();
 
-  const { setCity, city } = useContext(WeatherContext);
-  const [firstSixMatching, setFirstSixMatching] = useState([]);
+  const { setCity, city } = useContext(WeatherContext) as WeatherContextType;
+  const [firstSixMatching, setFirstSixMatching] = useState<ICity[]>([]);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [searchCity, setSearchCity] = useState<string>("");
 
@@ -29,9 +34,9 @@ const SearchInputBox: FC = () => {
       setErrorMsg("");
     }
 
-    if (e.target.value.length > 0) {
+    if (inputValue.length > 0) {
       const filteredCities = allCities.filter((item) =>
-        item.name.toLowerCase().includes(e.target.value.toLowerCase())
+        item.name.toLowerCase().includes(inputValue.toLowerCase())
       );
 
       setFirstSixMatching(filteredCities.slice(0, 6));
@@ -59,18 +64,15 @@ const SearchInputBox: FC = () => {
         {errorMsg ? `*${errorMsg}` : " "}
       </p>
       <ul>
-        {firstSixMatching &&
-          firstSixMatching.map((item, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                handleCitySelect(item.name);
-              }}
-              className={city === item.name ? "active" : ""}
-            >
-              {item.name}
-            </li>
-          ))}
+        {firstSixMatching.map((item, index) => (
+          <li
+            key={index}
+            onClick={() => handleCitySelect(item.name)}
+            className={city === item.name ? "active" : ""}
+          >
+            {item.name}
+          </li>
+        ))}
       </ul>
     </div>
   );
