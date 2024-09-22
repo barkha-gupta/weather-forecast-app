@@ -10,3 +10,45 @@
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
+.search-container {
+  position: relative; /* This makes the container the reference for absolute positioning */
+}
+
+.search-container ul {
+  position: absolute; /* Position the dropdown absolutely relative to the container */
+  top: 100%; /* Position the dropdown just below the input */
+  left: 10;
+  z-index: 1000; /* Ensures the dropdown is above other elements */
+  width: 90%;
+  list-style-type: none;
+  text-align: left;
+  border-radius: 10px;
+  background-color: #1e1f24;
+  margin-top: 2px;
+  overflow-y: auto;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+}
+
+.search-container li {
+  padding: 10px;
+  margin-left: 0;
+  cursor: pointer;
+}
+
+.search-container .active {
+  font-weight: bold;
+  background-color: lemonchiffon;
+  color: black;
+}
+
+.search-container .active:hover {
+  background-color: rgb(249, 235, 106);
+  color: black;
+}
+
+.search-container li:hover {
+  background-color: rgb(249, 235, 106);
+  color: black;
+  font-weight: bold;
+}
