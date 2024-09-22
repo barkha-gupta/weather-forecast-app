@@ -27,7 +27,7 @@ export const WeatherContext = createContext({
   foreCastData: [] as ForeCast[],
   isFahrenheit: false,
   toggleTempUnit: () => {},
-  setCity: (city: string) => {},
+  setCity: (_: string) => {},
 });
 
 const apiKey = import.meta.env.VITE_API_KEY;
