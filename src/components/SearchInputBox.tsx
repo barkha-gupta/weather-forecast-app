@@ -19,7 +19,7 @@ const SearchInputBox: FC = () => {
 
   const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    setSearchCity(inputValue); // Update search term
+    setSearchCity(inputValue);
 
     if (inputValue.length > 0 && inputValue.length < 3) {
       setErrorMsg("Please enter at least 3 characters.");
@@ -42,8 +42,8 @@ const SearchInputBox: FC = () => {
 
   const handleCitySelect = (selectedCity: string) => {
     setCity(selectedCity);
-    setSearchCity(selectedCity); // Show selected city in input box
-    setFirstSixMatching([]); // Hide dropdown
+    setSearchCity(selectedCity);
+    setFirstSixMatching([]);
   };
 
   return (
@@ -53,7 +53,7 @@ const SearchInputBox: FC = () => {
         type="text"
         placeholder="Search city"
         onChange={handleCityChange}
-        value={searchCity} // Set value to searchCity state
+        value={searchCity}
       />
       <p className="h-4 text-xs text-[#f96a6a]">
         {errorMsg ? `*${errorMsg}` : " "}
