@@ -67,3 +67,5 @@ After downloading the project ZIP file, unzip it to your desired location.
 5. The 5-day forecast is shown in the `ForecastLayout` component.
 
 6. Users can toggle between Celsius and Fahrenheit using a button in the UI.
+
+Check the *demo* of the app here: https://jam.dev/c/3c268f33-c5f7-45cc-bf1b-5b5a8c7413f2
