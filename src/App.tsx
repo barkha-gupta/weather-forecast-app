@@ -1,8 +1,8 @@
+import { lazy, Suspense } from "react";
 import "./App.css";
-import ForecastLayout from "./components/ForecastLayout";
-
+const ForecastLayout = lazy(() => import("./components/ForecastLayout"));
+const WeatherDisplay = lazy(() => import("./components/WeatherDisplay"));
 import { Header } from "./components/Header";
-import WeatherDisplay from "./components/WeatherDisplay";
 
 function App() {
   return (
@@ -11,10 +11,14 @@ function App() {
 
       <div className="grid grid-rows-[1fr_1fr] md:grid-cols-[2fr_5fr] gap-4 lg:grid-rows-none my-12 mx-3">
         {/* Weather display component */}
-        <WeatherDisplay />
+        <Suspense fallback={<p>Loading...</p>}>
+          <WeatherDisplay />
+        </Suspense>
 
         {/* Forecast components for 5 days */}
-        <ForecastLayout />
+        <Suspense fallback={<p>Loading...</p>}>
+          <ForecastLayout />
+        </Suspense>
       </div>
     </div>
   );

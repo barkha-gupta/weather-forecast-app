@@ -1,6 +1,7 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { WeatherContext } from "../context/WeatherContext";
 import { City } from "country-state-city";
+import { useDebounce } from "../hooks/useDebounce";
 
 const SearchInputBox: FC = () => {
   const allCities = City.getAllCities();
@@ -8,15 +9,22 @@ const SearchInputBox: FC = () => {
   const { setCity, city } = useContext(WeatherContext);
   const [firstSixMatching, setFirstSixMatching] = useState([]);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const [searchCity, setSearchCity] = useState<string>("");
+
+  const debouncedSearch = useDebounce(searchCity, 500);
+
+  useEffect(() => {
+    setCity(debouncedSearch);
+  }, [debouncedSearch, setCity]);
 
   const handleCityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    setCity(inputValue);
+    setSearchCity(inputValue); // Update search term
 
     if (inputValue.length > 0 && inputValue.length < 3) {
       setErrorMsg("Please enter at least 3 characters.");
     } else if (inputValue.length > 0 && firstSixMatching.length === 0) {
-      setErrorMsg("City not found. Please check your input");
+      setErrorMsg("City not found. Please check your input.");
     } else {
       setErrorMsg("");
     }
@@ -34,7 +42,8 @@ const SearchInputBox: FC = () => {
 
   const handleCitySelect = (selectedCity: string) => {
     setCity(selectedCity);
-    setFirstSixMatching([]);
+    setSearchCity(selectedCity); // Show selected city in input box
+    setFirstSixMatching([]); // Hide dropdown
   };
 
   return (
@@ -44,7 +53,7 @@ const SearchInputBox: FC = () => {
         type="text"
         placeholder="Search city"
         onChange={handleCityChange}
-        value={city}
+        value={searchCity} // Set value to searchCity state
       />
       <p className="h-4 text-xs text-[#f96a6a]">
         {errorMsg ? `*${errorMsg}` : " "}

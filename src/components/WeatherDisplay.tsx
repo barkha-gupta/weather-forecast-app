@@ -5,11 +5,18 @@ import LocationIcon from "../assets/icons/location.svg";
 
 const WeatherDisplay: FC = () => {
   const { weatherDetails, city, isFahrenheit } = useContext(WeatherContext);
+  const displayedCity = city.trim() === "" ? "New Delhi" : city;
   return (
     <div className="border-[#2e2e38] border-shadow-custom rounded-3xl flex flex-col gap-2 py-6 px-3 bg-[#2e2e38]">
       <div className="flex items-center font-semibold justify-start">
-        <img src={LocationIcon} alt="location icon" height={20} width={20} />
-        {city.toLocaleUpperCase()}
+        <img
+          src={LocationIcon}
+          alt="location icon"
+          height={20}
+          width={20}
+          loading="lazy"
+        />
+        {displayedCity.toLocaleUpperCase()}
       </div>
       <div className="pt-2 px-16 flex items-center justify-center">
         <WeatherIcon />

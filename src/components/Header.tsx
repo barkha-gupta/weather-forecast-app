@@ -28,9 +28,9 @@ export const Header: FC = () => {
     <div className="flex justify-between p-3 items-center">
       {/* greetings and date  */}
       <div className="flex gap-1 items-end">
-        <img src={Logo} alt="logo" width={50} height={50} />
-        <div className="">
-          <div className="text-xs text-[#7f7e84]">{greeting}!</div>
+        <img src={Logo} alt="logo" width={50} height={50} loading="lazy" />
+        <div>
+          <div className="text-xs text-tertiary-text">{greeting}!</div>
           <div className="text-sm">{dateString}</div>
         </div>
       </div>
